@@ -1,6 +1,10 @@
-from qiskit_ibm_runtime import Session, IBMBackend, QiskitRuntimeService, RuntimeJob
-from typing import Optional, Union
+from qiskit_ibm_runtime import  RuntimeJob
+
 # TODO: use the token validation in another class so that it is faster to benchmark
+# TODO: Find out which attributes of RuntimJob can be changed outside the class
+# TODO: If 'timestamp' 'created' cannot be changed outside, use it to verify that the job object was passed directly after creation
+# TODO: If 'job_id' cannot be changed, retrieve the job from the IBM server again and verify their overlap
+
 
 class Benchmarq:
 
@@ -17,7 +21,6 @@ class Benchmarq:
 
         if isinstance(job, RuntimeJob):
             self._job = job
-            print("deepcopy successful")
         else:
             raise TypeError("Job must be of type RuntimeJob")
         
@@ -31,7 +34,7 @@ class Benchmarq:
         self._result = self._job.result()
         print("Result: ", self._result)
 
-        self._metrics = self._job.metrics
+        self._metrics = self._job.metrics()
         print("Metrics: ", self._metrics)
 
 

@@ -1,5 +1,5 @@
 import unittest
-from qhub_api import Benchmarq
+from qhub_client import Benchmarq
 
 class TestBenchmarq(unittest.TestCase):
 

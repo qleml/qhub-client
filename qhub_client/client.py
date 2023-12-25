@@ -29,6 +29,7 @@ class QhubClient:
         Returns:
             Response from the server.
         """
+        
         url = f"{self._base_url}{endpoint}"
         response = requests.request(method, url, headers=self._headers, json=data, params=params)
 

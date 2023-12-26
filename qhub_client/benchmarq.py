@@ -1,4 +1,6 @@
 from qiskit_ibm_runtime import  RuntimeJob
+import numpy as np
+
 
 # TODO: use the token validation in another class so that it is faster to benchmark
 # TODO: Find out which attributes of RuntimJob can be changed outside the class
@@ -13,9 +15,11 @@ class Benchmarq:
         job: RuntimeJob
     ):
         """Initialize a Benchmarq object."""
+
+        # TODO: Include all relevant data
+
         self._job: RuntimeJob = None
         self._job_id: str = None
-        self._inputs: dict = None
         self._metrics: dict = None
         self._result: dict = None
 
@@ -25,17 +29,25 @@ class Benchmarq:
             raise TypeError("Job must be of type RuntimeJob")
         
         self._job_id = self._job.job_id()
-        print("Job ID: ", self._job_id)
-
-        self._inputs = self._job.inputs
-        print("Inputs: ", self._inputs)
-
         self._job.wait_for_final_state()
-        self._result = self._job.result()
-        print("Result: ", self._result)
-
+        self._estimator_result = self._job.result()
+        self._result = {"results": self._estimator_result.values.tolist()}
         self._metrics = self._job.metrics()
-        print("Metrics: ", self._metrics)
+        
+        if not self._is_job_legitamate():
+            raise ValueError("The job is not legitamate") # Specify error
+
+    def get_metrics(self):
+        return {
+            'job_id': self._job_id,
+            'result': self._result,
+            'metrics': self._metrics,
+        }
+    
+    def _is_job_legitamate(self):
+        """Check if the input is legitamate so that benchmarking can not be cheated"""
+        # TODO: Include sophisticated checks 
+        return True
 
 
         

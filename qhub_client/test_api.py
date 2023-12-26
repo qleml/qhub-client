@@ -17,5 +17,6 @@ check_api_response(response)
 while(True):
     # Making a POST request
     name = input("Enter your name: ")
-    response = requests.post(base_url + "/users", json={"name": name})
+
+    response = requests.post(base_url + "/algs", json={"name": name})
     check_api_response(response)

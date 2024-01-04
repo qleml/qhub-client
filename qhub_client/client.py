@@ -7,7 +7,7 @@ from qhub_client.benchmarq import Benchmarq
 class QhubClient:
     """Qhub Client"""
 
-    def __init__(self, token: str = None, base_url: str = "http://localhost:3000/api"):
+    def __init__(self, token: str = None, base_url: str = "http://localhost:4000/api"):
         """
         Initialize the QhubClient.
 
@@ -26,10 +26,13 @@ class QhubClient:
         benchmarq = Benchmarq(job)
 
         metrics = benchmarq.get_metrics()
-        print(metrics)
-        response = requests.post(self._base_url + "/algs", json=metrics)
+
+
+
+        response = requests.post(self._base_url + "/algorithms", json=metrics)
         if response.status_code == 201:
-            print(response.text)
+            data = response.json()
+            print("Successfully created algorithm! \n Checkout your contribution at http://localhost:3000/algorithms/" + data["algorithm"]["_id"])  
         else:
             raise ValueError("The job could not be benchmarked: " + response.status_code + " " + response.text)
 
